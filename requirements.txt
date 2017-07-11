@@ -1,0 +1,6 @@
+falcon==1.2.0
+gunicorn==19.7.1
+moment==0.8
+SQLAlchemy==1.2.0b1
+ujson-1.35
+
