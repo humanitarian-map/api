@@ -15,7 +15,5 @@ api = application = application = falcon.API()
 
 
 # Create Resources
-mapitems = MapItemsResource()
-api.add_route('/projects', resources.projects)
-projects = ProjectsResource()
-api.add_route('/mapitems', resources.mapitems)
+api.add_route('/projects', ProjectsResource())
+api.add_route('/mapitems', MapItemsResource())

@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import Boolean, Column, DateTime, Text
 from sqlalchemy.dialects.postgresql import UUID
 
-from database import Base
+from storage.database import Base
 from utils import datetime
 
 
@@ -20,6 +20,7 @@ class MapItem(Base):
                               default=datetime.now, onupdate=datetime.now)
     is_active = Column(Boolean, nullable=False, default=True)
     deleted_datetime = Column(DateTime(timezone=True), nullable=True)
+
 
 __all__ = [
     "MapItem"

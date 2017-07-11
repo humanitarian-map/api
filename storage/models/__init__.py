@@ -1,2 +1,2 @@
-from .projects import *
-from .mapitems import *
+from .projects import *  # noqa
+from .mapitems import *  # noqa
