@@ -11,10 +11,6 @@ from storage.models.mapitems import MapItem
 fake = Factory.create()
 
 
-RANGE_SAMPLE_PROJECTS = (1, 100)
-
-RANDOM_SMAPLE_MAPITEMPS = (4, 20)
-
 SAMPLE_CENTERS = (
     [35.10193406, 38.46862793],
     [25.89876194, 89.22546387],
@@ -43,7 +39,7 @@ ICON_TYPES = (
 def get_project(id):
     return Project(name="project Example {}".format(id),
                    slug="project-example-{}".format(id),
-                   description=fake.paragraph(),
+                   description=fake.paragraph()[0],
                    zoom=random.randint(5, 10),
                    center_point=random.choice(SAMPLE_CENTERS))
 
@@ -54,9 +50,9 @@ def get_cross(project):
                 random.uniform(project.center_point[1] - 3,
                                project.center_point[1] + 3)]
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph(),
+                   description=fake.paragraph()[0],
                    type="cross",
                    data={"position": position})
 
@@ -67,9 +63,9 @@ def get_point(project):
                 random.uniform(project.center_point[1] - 3,
                                project.center_point[1] + 3)]
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph(),
+                   description=fake.paragraph()[0],
                    type="point",
                    data={"icon": random.choice(ICON_TYPES),
                          "position": position})
@@ -85,27 +81,39 @@ def get_arrow(project):
             random.uniform(origin[1] - 0.5,
                            origin[1] + 0.5)]
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph(),
+                   description=fake.paragraph()[0],
                    type="arrow",
                    data={"origin": origin,
                          "dest": dest})
 
 
 def get_polygon(project):
-    return MapItem(name=fake.sentence(),
+    positions = [[random.uniform(project.center_point[0] - 3,
+                                 project.center_point[0] + 3),
+                  random.uniform(project.center_point[1] - 3,
+                                 project.center_point[1] + 3)]]
+
+    for i in range(1, random.randint(4, 7)):
+        last = positions[len(positions) - 1]
+        positions.append([random.uniform(last[0] - 3,
+                                         last[0] + 3),
+                          random.uniform(last[1] - 3,
+                                         last[1] + 3)])
+
+    return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph(),
+                   description=fake.paragraph()[0],
                    type="polygon",
-                   data={})
+                   data={"positions": positions})
 
 
 MAPITEM_GENERATORS = (
     get_point,
     get_cross,
     get_arrow,
-    # get_polygon
+    get_polygon
 )
 
 
@@ -115,14 +123,14 @@ if __name__ == "__main__":
     print("Create DB")
     db.setup()
 
-    for id in range(*RANGE_SAMPLE_PROJECTS):
+    for id in range(1, 100):
         project = get_project(id)
 
         db.session.add(project)
         db.session.flush()
         print("> Create project:", project)
 
-        for i in range(1, random.randint(*RANDOM_SMAPLE_MAPITEMPS)):
+        for i in range(4, random.randint(4, 20)):
             item = random.choice(MAPITEM_GENERATORS)(project)
 
             db.session.add(item)
