@@ -37,7 +37,7 @@ class MapItem(manager.Base):
     project = relationship("Project", back_populates="mapitems")
 
     def __repr__(self):
-        return "<MapItem(name='{}')>".format(self.name)
+        return "<MapItem(type={}, name='{}')>".format(self.type, self.name)
 
 
 __all__ = [
