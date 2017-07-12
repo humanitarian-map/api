@@ -42,7 +42,7 @@ ICON_TYPES = (
 def get_project(id):
     return Project(name="project Example {}".format(id),
                    slug="project-example-{}".format(id),
-                   description=fake.paragraph()[0],
+                   description=fake.paragraph(),
                    start_datetime=now() - datetime.timedelta(weeks=random.randint(2, 52)),
                    end_datetime=now() + datetime.timedelta(weeks=random.randint(12, 156)),
                    zoom=random.randint(5, 10),
@@ -57,7 +57,7 @@ def get_cross(project):
 
     return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph()[0],
+                   description=fake.paragraph(),
                    type="cross",
                    data={"position": position})
 
@@ -70,7 +70,7 @@ def get_point(project):
 
     return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph()[0],
+                   description=fake.paragraph(),
                    type="point",
                    data={"icon": random.choice(ICON_TYPES),
                          "position": position})
@@ -88,7 +88,7 @@ def get_arrow(project):
 
     return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph()[0],
+                   description=fake.paragraph(),
                    type="arrow",
                    data={"origin": origin,
                          "dest": dest})
@@ -109,7 +109,7 @@ def get_polygon(project):
 
     return MapItem(name=fake.sentences()[0],
                    project=project,
-                   description=fake.paragraph()[0],
+                   description=fake.paragraph(),
                    type="polygon",
                    data={"positions": positions})
 
