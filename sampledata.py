@@ -42,7 +42,7 @@ SAMPLE_ORGANIZATIONS = [
     {
         "name": "Oxfam International",
         "slug": "oxfam-international",
-        "image": "http://logok.org/wp-content/uploads/2015/01/Oxfam-logo.png",
+        "image": "http://static.oxfamamerica.org.s3.amazonaws.com/images/logos/oxfam_logo_vertical_green_rgb.png",
         "web": ",https://www.oxfam.org/",
         "description": "Oxfam is an international confederation of charitable organizations focused on the "
                        "alleviation of global poverty. Oxfam's programmes address the structural causes of poverty "
