@@ -1,17 +1,20 @@
 from storage.models.mapitems import MapItem
+from storage.models.projects import Project
 
 
-def list_mapitems(session, is_active=True):
-    return session.query(MapItem).filter_by(is_active=is_active).all()
+def list_mapitems(session, slug, is_active=True):
+    return session.query(MapItem).filter(MapItem.is_active == is_active,
+                                         Project.slug == slug).all()
 
 
-def get_mapitem_by_id(session, id):
-    return session.query(MapItem).filter_by(id=id).one_or_none()
+def get_mapitem_by_id(session, slug, id):
+    return session.query(MapItem).filter(MapItem.id == id,
+                                         Project.slug == slug).one_or_none()
 
 
-def create_mapitem(session, name, project_id, type, data, description=None):
+def create_mapitem(session, project, name, type, data, description=None):
     obj = MapItem(name=name,
-                  project_id=project_id,
+                  project=project,
                   type=type,
                   data=data,
                   description=description)

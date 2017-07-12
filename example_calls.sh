@@ -1,6 +1,5 @@
-http POST localhost:8000/api/mapitems <<< '{'\
+http POST localhost:8000/api/projects/project-example-1/mapitems <<< '{'\
 '  "name": "caca",'\
-'  "project_id": "776c1a81-ed90-4897-b19c-d07c6c4f5360",'\
 '  "type": "point",'\
 '  "data": {'\
 '    "icon": "other",'\
