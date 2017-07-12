@@ -15,6 +15,10 @@ class Project(manager.Base):
     name = Column(Text, nullable=False)
     slug = Column(Text, nullable=False)
     description = Column(Text)
+
+    start_datetime = Column(DateTime(timezone=True), nullable=True)
+    end_datetime = Column(DateTime(timezone=True), nullable=True)
+
     created_datetime = Column(DateTime(timezone=True), nullable=False,
                               default=datetime.now)
     updated_datetime = Column(DateTime(timezone=True), nullable=False,

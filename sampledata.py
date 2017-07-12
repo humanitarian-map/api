@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+
+import datetime
 import random
 
 from faker import Factory
@@ -6,6 +8,7 @@ from faker import Factory
 from storage.database import manager as db
 from storage.models.projects import Project
 from storage.models.mapitems import MapItem
+from utils.datetime import now
 
 
 fake = Factory.create()
@@ -40,6 +43,8 @@ def get_project(id):
     return Project(name="project Example {}".format(id),
                    slug="project-example-{}".format(id),
                    description=fake.paragraph()[0],
+                   start_datetime=now() - datetime.timedelta(weeks=random.randint(2, 52)),
+                   end_datetime=now() + datetime.timedelta(weeks=random.randint(12, 156)),
                    zoom=random.randint(5, 10),
                    center_point=random.choice(SAMPLE_CENTERS))
 
