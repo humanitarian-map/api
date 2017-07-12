@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 import falcon
+from falcon_cors import CORS
+
 
 from resources.mapitems import MapItemsCollection, MapItemResource
 from resources.projects import ProjectsCollection, ProjectResource
+
+import settings
 
 from storage.database import manager as db
 
@@ -11,8 +15,16 @@ from storage.database import manager as db
 db.setup()
 
 
+# Middlewares
+cors = CORS(allow_origins_list=settings.ALLOW_ORIGINS)
+
+middlewares = [
+    cors.middleware
+]
+
+
 # Create the app
-api = application = application = falcon.API()
+api = application = application = falcon.API(middleware=middlewares)
 
 
 # Create Resources

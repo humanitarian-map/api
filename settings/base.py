@@ -14,3 +14,5 @@ DB = {
         "pool_size": 5
     }
 }
+
+ALLOW_ORIGINS = env.get("HUMMAP_ALLOW_ORIGINS", ["*"])
