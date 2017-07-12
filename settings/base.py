@@ -15,5 +15,5 @@ DB = {
     }
 }
 
-ALLOW_ALL_ORIGINS = env.get("ALLOW_ALL_ORIGINS", True)
-ALLOW_ORIGINS = env.get("HUMMAP_ALLOW_ORIGINS", ["*"])
+ALLOW_ALL_ORIGINS = env.get("HUMMAP_ALLOW_ALL_ORIGINS", "true") in ["true", "True", "TRUE"]
+ALLOW_ORIGINS = env.get("HUMMAP_ALLOW_ORIGINS", "http://localhost:3000").split(";")
