@@ -1,5 +1,6 @@
 falcon==1.2.0
 falcon-cors==1.1.2
+falconjsonio==1.0.2
 Faker==0.7.17
 gunicorn==19.7.1
 moment==0.8

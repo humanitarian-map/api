@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 import falcon
 from falcon_cors import CORS
-
+from falconjsonio import middleware as falconjsonio_middleware
 
 from resources.mapitems import MapItemsCollection, MapItemResource
 from resources.projects import ProjectsCollection, ProjectResource
-
 import settings
-
 from storage.database import manager as db
 
 
@@ -15,12 +13,16 @@ from storage.database import manager as db
 db.setup()
 
 
-# Middlewares
+# CORS
 cors = CORS(allow_all_origins=settings.ALLOW_ALL_ORIGINS,
             allow_origins_list=settings.ALLOW_ORIGINS)
 
+
+# Middlewares
 middlewares = [
-    cors.middleware
+    cors.middleware,
+    falconjsonio_middleware.RequireJSON(),
+    falconjsonio_middleware.JSONTranslator(),
 ]
 
 
