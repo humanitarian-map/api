@@ -22,7 +22,6 @@ class MapItem(manager.Base):
     is_active = Column(Boolean, nullable=False, default=True)
     deleted_datetime = Column(DateTime(timezone=True), nullable=True)
     map_data = Column(JSONB(), nullable=False, default={})
-    documents = Column(Text)
 
     project_id = Column(UUID(as_uuid=True), ForeignKey('project.id'))
     project = relationship("Project", back_populates="mapitems")

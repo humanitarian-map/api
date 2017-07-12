@@ -1,7 +1,7 @@
 import uuid
 
 from sqlalchemy import Boolean, Column, DateTime, Float, Integer, Text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import ARRAY, UUID
 from sqlalchemy.orm import relationship
 
 from storage.database import manager
@@ -22,9 +22,7 @@ class Project(manager.Base):
     is_active = Column(Boolean, nullable=False, default=True)
     deleted_datetime = Column(DateTime(timezone=True), nullable=True)
     map_zoom = Column(Integer(), nullable=False, default=5)
-    map_center_lat = Column(Float(), nullable=False, default=1)
-    map_center_lng = Column(Float(), nullable=False, default=1)
-    documents = Column(Text)
+    map_center_point = Column(ARRAY(Float, dimensions=1), nullable=False, default=1)
 
     mapitems = relationship("MapItem", back_populates="project")
 

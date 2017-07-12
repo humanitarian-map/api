@@ -12,16 +12,13 @@ sample_data = [
             slug="project-example-1",
             description="This is an example project.",
             map_zoom=5,
-            map_center_lat=23.4162,
-            map_center_lng=25.6628,
-            documents="http://example1.com",
+            map_center_point=[23.4162, 25.6628]
         ),
         "mapitems": [
             MapItem(
                 name="Item 1.1",
                 description="This is the item 1.1",
-                map_data={},
-                documents="http://example11.com",
+                map_data={}
             ),
         ]
     },
@@ -32,22 +29,18 @@ sample_data = [
             slug="project-example-2",
             description="This is an example project.",
             map_zoom=5,
-            map_center_lat=34.8021,
-            map_center_lng=38.9968,
-            documents="http://example2.com",
+            map_center_point=[34.8021, 38.9968]
         ),
         "mapitems": [
             MapItem(
                 name="Item 2.1",
                 description="This is the item 2.1",
-                map_data={},
-                documents="http://example21.com",
+                map_data={}
             ),
             MapItem(
                 name="Item 2.2",
                 description="This is the item 2.2",
-                map_data={},
-                documents="http://example22.com",
+                map_data={}
             ),
         ]
     },
