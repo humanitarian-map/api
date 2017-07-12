@@ -11,14 +11,21 @@ sample_data = [
             name="project Example 1",
             slug="project-example-1",
             description="This is an example project.",
-            map_zoom=5,
-            map_center_point=[23.4162, 25.6628]
+            zoom=5,
+            center_point=[23.4162, 25.6628]
         ),
         "mapitems": [
             MapItem(
                 name="Item 1.1",
                 description="This is the item 1.1",
-                map_data={}
+                type="arrow",
+                data={"origin": [27.705, 37.80], "dest": [28.305, 37.29]}
+            ),
+            MapItem(
+                name="Item 1.2",
+                description="This is the item 1.2",
+                type="polygon",
+                data={"positions": [[28.705, 37.80], [28.705, 38.80], [29.305, 37.29]]}
             ),
         ]
     },
@@ -28,19 +35,21 @@ sample_data = [
             name="project Example 2",
             slug="project-example-2",
             description="This is an example project.",
-            map_zoom=5,
-            map_center_point=[34.8021, 38.9968]
+            zoom=5,
+            center_point=[34.8021, 38.9968]
         ),
         "mapitems": [
             MapItem(
                 name="Item 2.1",
                 description="This is the item 2.1",
-                map_data={}
+                type="point",
+                data={"icon": "camp", "position": [29.505, 39.09]}
             ),
             MapItem(
                 name="Item 2.2",
                 description="This is the item 2.2",
-                map_data={}
+                type="cross",
+                data={"position": [28.505, 37.09]}
             ),
         ]
     },

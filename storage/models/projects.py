@@ -21,8 +21,8 @@ class Project(manager.Base):
                               default=datetime.now, onupdate=datetime.now)
     is_active = Column(Boolean, nullable=False, default=True)
     deleted_datetime = Column(DateTime(timezone=True), nullable=True)
-    map_zoom = Column(Integer(), nullable=False, default=5)
-    map_center_point = Column(ARRAY(Float, dimensions=1), nullable=False, default=1)
+    zoom = Column(Integer(), nullable=False, default=5)
+    center_point = Column(ARRAY(Float, dimensions=1), nullable=False, default=1)
 
     mapitems = relationship("MapItem", back_populates="project")
 

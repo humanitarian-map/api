@@ -1,7 +1,8 @@
 import datetime
 import decimal
-import uuid
+import enum
 import json
+import uuid
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -32,6 +33,8 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         elif isinstance(o, uuid.UUID):
             return str(o)
+        elif isinstance(o, enum.Enum):
+            return o.value
         elif hasattr(o, "as_dict"):
             return o.as_dict()
         elif hasattr(o, "__getitem__"):

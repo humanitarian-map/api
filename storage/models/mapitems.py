@@ -1,12 +1,21 @@
+import enum
 import uuid
 
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Text
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import ENUM, JSONB, UUID
 from sqlalchemy.orm import relationship
 
 
 from storage.database import manager
 from utils import datetime
+
+
+class ItemTypes(enum.Enum):
+    cross = "cross"
+    point = "point"
+    icon = "icon"
+    arrow = "arrow"
+    polygon = "poligon"
 
 
 class MapItem(manager.Base):
@@ -21,7 +30,8 @@ class MapItem(manager.Base):
                               default=datetime.now, onupdate=datetime.now)
     is_active = Column(Boolean, nullable=False, default=True)
     deleted_datetime = Column(DateTime(timezone=True), nullable=True)
-    map_data = Column(JSONB(), nullable=False, default={})
+    type = Column(ENUM(ItemTypes, name="item_types"), nullable=False)
+    data = Column(JSONB(), nullable=False, default={})
 
     project_id = Column(UUID(as_uuid=True), ForeignKey('project.id'))
     project = relationship("Project", back_populates="mapitems")
