@@ -23,8 +23,33 @@ def create_mapitem(session, project, name, type, data, description=None):
     return obj
 
 
+def update_mapitem(session, slug, id, name, type, data, description):
+    obj = get_mapitem_by_id(session, slug, id)
+
+    obj.name = name
+    obj.type = type
+    obj.data = data
+    obj.description = description
+
+    session.add(obj)
+    session.flush()
+
+    return obj
+
+
+def delete_mapitem_by_id(session, slug, id):
+    obj = get_mapitem_by_id(session, slug, id)
+
+    if not obj:
+        return False
+
+    session.delete(obj)
+    return True
+
+
 __all__ = [
     "list_mapitems",
     "get_mapitem_by_id",
-    "create_mapitem"
+    "create_mapitem",
+    "delete_mapitem_by_id"
 ]

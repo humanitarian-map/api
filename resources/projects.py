@@ -17,7 +17,7 @@ class ProjectResource(BaseResource):
     def on_get(self, req, res, slug):
         project = repository.get_project_by_slug(self.db.session, slug)
         if not project:
-            self.raise_not_found(name="Project not found")
+            self.raise_not_found(title="Project not found")
 
         body = project.as_dict()
         body["mapitems"] = [mi for mi in project.mapitems]
