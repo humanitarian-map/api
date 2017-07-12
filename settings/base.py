@@ -15,4 +15,5 @@ DB = {
     }
 }
 
+ALLOW_ALL_ORIGINS = env.get("ALLOW_ALL_ORIGINS", True)
 ALLOW_ORIGINS = env.get("HUMMAP_ALLOW_ORIGINS", ["*"])
