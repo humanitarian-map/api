@@ -7,8 +7,11 @@ import settings
 
 
 class Base(object):
+    __serialized_fields__ = []
+
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        fields = self.__serialized_fields__ or [c.name for c in self.__table__.columns]
+        return {n: getattr(self, n) for n in fields}
 
 
 class DBManager(object):
@@ -28,8 +31,9 @@ class DBManager(object):
     def setup(self):
         # import all modules here that might define models so that
         # they will be registered properly on the metadata.
-        from .models import (Project,   # noqa
-                             MapItem)   # noqa
+        from .models import (Organization,  # noqa
+                             Project,       # noqa
+                             MapItem)       # noqa
 
         try:
             self.Base.metadata.create_all(bind=self.engine)

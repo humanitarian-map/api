@@ -2,11 +2,15 @@ from storage.models.projects import Project
 
 
 def list_projects(session, is_active=True):
-    return session.query(Project).filter_by(is_active=is_active).all()
+    return (session.query(Project).join(Project.organization)
+                                  .filter(Project.is_active == is_active)
+                                  .all())
 
 
 def get_project_by_slug(session, slug):
-    return session.query(Project).join(Project.mapitems).filter(Project.slug == slug).one_or_none()
+    return (session.query(Project).join(Project.mapitems, Project.organization)
+                                  .filter(Project.slug == slug)
+                                  .one_or_none())
 
 
 __all__ = [

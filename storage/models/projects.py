@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, Column, DateTime, Float, Integer, Text
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, Text
 from sqlalchemy.dialects.postgresql import ARRAY, UUID
 from sqlalchemy.orm import relationship
 
@@ -19,16 +19,33 @@ class Project(manager.Base):
     start_datetime = Column(DateTime(timezone=True), nullable=True)
     end_datetime = Column(DateTime(timezone=True), nullable=True)
 
+    zoom = Column(Integer(), nullable=False, default=5)
+    center_point = Column(ARRAY(Float, dimensions=1), nullable=False, default=1)
+
     created_datetime = Column(DateTime(timezone=True), nullable=False,
                               default=datetime.now)
     updated_datetime = Column(DateTime(timezone=True), nullable=False,
                               default=datetime.now, onupdate=datetime.now)
     is_active = Column(Boolean, nullable=False, default=True)
     deleted_datetime = Column(DateTime(timezone=True), nullable=True)
-    zoom = Column(Integer(), nullable=False, default=5)
-    center_point = Column(ARRAY(Float, dimensions=1), nullable=False, default=1)
+
+    organization_id = Column(UUID(as_uuid=True), ForeignKey('organization.id'))
+    organization = relationship("Organization", back_populates="projects")
 
     mapitems = relationship("MapItem", back_populates="project")
+
+    __serialized_fields__ = [
+        "id",
+        "name",
+        "slug",
+        "description",
+        "start_datetime",
+        "end_datetime",
+        "zoom",
+        "center_point",
+        "organization",
+        "mapitems"
+    ]
 
     def __repr__(self):
         return "<Project(name='{}')>".format(self.name)

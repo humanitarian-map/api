@@ -36,6 +36,15 @@ class MapItem(manager.Base):
     project_id = Column(UUID(as_uuid=True), ForeignKey('project.id'))
     project = relationship("Project", back_populates="mapitems")
 
+    __serialized_fields__ = [
+        "id",
+        "name",
+        "description",
+        "is_active",
+        "type",
+        "data"
+    ]
+
     def __repr__(self):
         return "<MapItem(type={}, name='{}')>".format(self.type, self.name)
 
