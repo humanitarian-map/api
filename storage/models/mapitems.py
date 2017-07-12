@@ -15,7 +15,7 @@ class ItemTypes(enum.Enum):
     point = "point"
     icon = "icon"
     arrow = "arrow"
-    polygon = "poligon"
+    polygon = "polygon"
 
 
 class MapItem(manager.Base):
