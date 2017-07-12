@@ -15,7 +15,11 @@ db.setup()
 
 # CORS
 cors = CORS(allow_all_origins=settings.ALLOW_ALL_ORIGINS,
-            allow_origins_list=settings.ALLOW_ORIGINS)
+            allow_origins_list=settings.ALLOW_ORIGINS,
+            allow_all_headers=settings.ALLOW_ALL_HEADERS,
+            allow_headers_list=settings.ALLOW_HEADERS_LIST,
+            allow_all_methods=settings.ALLOW_ALL_METHODS,
+            allow_methods_list=settings.ALLOW_METHODS_LIST)
 
 
 # Middlewares

@@ -17,3 +17,7 @@ DB = {
 
 ALLOW_ALL_ORIGINS = env.get("HUMMAP_ALLOW_ALL_ORIGINS", "true") in ["true", "True", "TRUE"]
 ALLOW_ORIGINS = env.get("HUMMAP_ALLOW_ORIGINS", "http://localhost:3000").split(";")
+ALLOW_ALL_HEADERS = env.get("HUMMAP_ALLOW_ALL_HEADERS", "true") in ["true", "True", "TRUE"]
+ALLOW_HEADERS_LIST = env.get("HUMMAP_ALLOW_HEADERS_LIST", [])
+ALLOW_ALL_METHODS = env.get("HUMMAP_ALLOW_ALL_METHODS", "true") in ["true", "True", "TRUE"]
+ALLOW_METHODS_LIST = env.get("HUMMAP_ALLOW_METHODS_LIST", [])
