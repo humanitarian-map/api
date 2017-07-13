@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 
 from storage.database import manager
 from utils import datetime
+from cloud.service import get_point_folder_url
 
 
 class ItemTypes(enum.Enum):
@@ -42,11 +43,18 @@ class MapItem(manager.Base):
         "description",
         "is_active",
         "type",
-        "data"
+        "data",
+        "documents_url",
     ]
 
     def __repr__(self):
         return "<MapItem(type={}, name='{}')>".format(self.type, self.name)
+
+    @property
+    def documents_url(self):
+        if self.type == ItemTypes.point:
+            return get_point_folder_url(self.project.slug, self.name)
+        return None
 
 
 __all__ = [

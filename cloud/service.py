@@ -43,3 +43,11 @@ def on_remove_user_from_project(project_slug, username):
     oc = owncloud.Client(settings.OWNCLOUD_HOST)
     oc.login(settings.OWNCLOUD_USERNAME, settings.OWNCLOUD_PASSWORD)
     oc.remove_user_from_group(username, project_slug)
+
+
+def get_project_folder_url(project_slug):
+    return "{}/index.php/apps/files/?dir=/{}".format(settings.OWNCLOUD_HOST, project_slug)
+
+
+def get_point_folder_url(project_slug, point_name):
+    return "{}/index.php/apps/files/?dir=/{}/{}".format(settings.OWNCLOUD_HOST, project_slug, point_name)

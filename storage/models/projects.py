@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 
 from storage.database import manager
 from utils import datetime
+from cloud.service import get_project_folder_url
 
 
 class Project(manager.Base):
@@ -46,8 +47,13 @@ class Project(manager.Base):
         "zoom",
         "center_point",
         "organization",
-        "mapitems"
+        "mapitems",
+        "documents_url"
     ]
+
+    @property
+    def documents_url(self):
+        return get_project_folder_url(self.slug)
 
     def __repr__(self):
         return "<Project(name='{}')>".format(self.name)
