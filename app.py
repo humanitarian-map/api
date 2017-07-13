@@ -3,6 +3,7 @@ import falcon
 from falcon_cors import CORS
 from falconjsonio import middleware as falconjsonio_middleware
 
+from resources.documents import DocumentsCollection
 from resources.mapitems import MapItemsCollection, MapItemResource
 from resources.projects import ProjectsCollection, ProjectResource
 import settings
@@ -37,5 +38,6 @@ api = application = application = falcon.API(middleware=middlewares)
 # Create Resources
 api.add_route("/api/projects", ProjectsCollection(db=db))
 api.add_route("/api/projects/{slug}", ProjectResource(db=db))
+api.add_route("/api/projects/{slug}/documents", DocumentsCollection(db=db))
 api.add_route("/api/projects/{slug}/mapitems", MapItemsCollection(db=db))
 api.add_route("/api/projects/{slug}/mapitems/{id}", MapItemResource(db=db))
