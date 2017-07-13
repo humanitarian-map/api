@@ -109,7 +109,7 @@ def get_project(organization, id):
                    description=fake.paragraph(),
                    start_date=now().date() - datetime.timedelta(weeks=random.randint(2, 52)),
                    end_date=now().date() + datetime.timedelta(weeks=random.randint(12, 156)),
-                   zoom=random.randint(5, 10),
+                   zoom=random.randint(4, 7),
                    center_point=random.choice(SAMPLE_CENTERS))
 
 
