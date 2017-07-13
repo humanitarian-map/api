@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, Text
+from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, Text
 from sqlalchemy.dialects.postgresql import ARRAY, UUID
 from sqlalchemy.orm import relationship
 
@@ -16,8 +16,8 @@ class Project(manager.Base):
     slug = Column(Text, nullable=False)
     description = Column(Text)
 
-    start_datetime = Column(DateTime(timezone=True), nullable=True)
-    end_datetime = Column(DateTime(timezone=True), nullable=True)
+    start_date = Column(Date(), nullable=True)
+    end_date = Column(Date(), nullable=True)
 
     zoom = Column(Integer(), nullable=False, default=5)
     center_point = Column(ARRAY(Float, dimensions=1), nullable=False, default=1)

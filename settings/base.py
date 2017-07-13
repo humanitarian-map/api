@@ -3,7 +3,7 @@ from os import environ as env
 DB = {
     "url": {
         "drivername": "postgresql",
-        "host": env.get("HUMMAP_DB_HOST", "localhost"),
+        "host": env.get("HUMMAP_DB_HOST", ""),
         "port": env.get("HUMMAP_DB_PORT", "5432"),
         "username": env.get("HUMMAP_DB_USER", ""),
         "password": env.get("HUMMAP_DB_PASSWORD", ""),

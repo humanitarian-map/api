@@ -107,8 +107,8 @@ def get_project(organization, id):
                    slug="project-example-{}".format(id),
                    organization=organization,
                    description=fake.paragraph(),
-                   start_datetime=now() - datetime.timedelta(weeks=random.randint(2, 52)),
-                   end_datetime=now() + datetime.timedelta(weeks=random.randint(12, 156)),
+                   start_date=now().date() - datetime.timedelta(weeks=random.randint(2, 52)),
+                   end_date=now().date() + datetime.timedelta(weeks=random.randint(12, 156)),
                    zoom=random.randint(5, 10),
                    center_point=random.choice(SAMPLE_CENTERS))
 
