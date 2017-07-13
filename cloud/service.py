@@ -1,6 +1,7 @@
 import owncloud
 import settings
 import os.path
+import dateparser
 
 
 def on_create_project(project_slug, creator):
@@ -51,3 +52,18 @@ def get_project_folder_url(project_slug):
 
 def get_point_folder_url(project_slug, point_name):
     return "{}/index.php/apps/files/?dir=/{}/{}".format(settings.OWNCLOUD_HOST, project_slug, point_name)
+
+
+def list_project_documents(project_slug):
+    oc = owncloud.Client(settings.OWNCLOUD_HOST)
+    oc.login(settings.OWNCLOUD_USERNAME, settings.OWNCLOUD_PASSWORD)
+    files = []
+    for i in oc.list(project_slug, depth="infinity"):
+        files.append({
+            "type": i.file_type,
+            "name": i.name,
+            "path": i.path,
+            "last_modified": dateparser.parse(i.attributes['{DAV:}getlastmodified'])
+        })
+
+    return files
