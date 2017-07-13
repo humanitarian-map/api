@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+gunicorn -w4 --timeout=0 --reload -b 0.0.0.0:8000 app

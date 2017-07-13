@@ -32,7 +32,7 @@ middlewares = [
 
 
 # Create the app
-api = application = application = falcon.API(middleware=middlewares)
+api = application = falcon.API(middleware=middlewares)
 
 
 # Create Resources
