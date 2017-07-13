@@ -1,5 +1,7 @@
-from storage.models.mapitems import MapItem
+from storage.models.mapitems import MapItem, ItemTypes
 from storage.models.projects import Project
+
+from cloud import service as cloud_service
 
 
 def list_mapitems(session, slug, is_active=True):
@@ -20,6 +22,10 @@ def create_mapitem(session, project, name, type, data, description=None):
                   description=description)
     session.add(obj)
     session.flush()
+
+    if type == ItemTypes.point.value:
+        cloud_service.on_create_point(project.slug, name)
+
     return obj
 
 

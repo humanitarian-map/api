@@ -4,7 +4,8 @@ import os.path
 import dateparser
 
 
-def on_create_project(project_slug, creator):
+def on_create_project(project_slug, creator="admin"):
+    # TODO: cretor must be related with the project owner when we have users entities
     oc = owncloud.Client(settings.OWNCLOUD_HOST)
     oc.login(settings.OWNCLOUD_USERNAME, settings.OWNCLOUD_PASSWORD)
     try:

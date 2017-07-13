@@ -5,10 +5,11 @@ import random
 
 from faker import Factory
 
+from cloud import service as cloud_service
 from storage.database import manager as db
 from storage.models.organizations import Organization
 from storage.models.projects import Project
-from storage.models.mapitems import MapItem
+from storage.models.mapitems import MapItem, ItemTypes
 from utils.datetime import now
 
 
@@ -200,11 +201,12 @@ if __name__ == "__main__":
         print(". Create organization:", org)
         organizations.append(org)
 
-    for id in range(1, 100):
+    for id in range(1, 31):
         project = get_project(random.choice(organizations), id)
 
         db.session.add(project)
         db.session.flush()
+        cloud_service.on_create_project(project.slug)
         print("> Create project:", project)
 
         for i in range(1, random.randint(4, 20)):
@@ -212,6 +214,9 @@ if __name__ == "__main__":
 
             db.session.add(item)
             db.session.flush()
+
+            if item.type == ItemTypes.point.value:
+                cloud_service.on_create_point(project.slug, item.name)
             print("    - Create map item:", item)
 
     db.session.commit()
