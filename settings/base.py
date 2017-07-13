@@ -15,6 +15,10 @@ DB = {
     }
 }
 
+OWNCLOUD_HOST = env.get("HUMMAP_OWNCLOUD_HOST")
+OWNCLOUD_USERNAME = env.get("HUMMAP_OWNCLOUD_USERNAME")
+OWNCLOUD_PASSWORD = env.get("HUMMAP_OWNCLOUD_PASSWORD")
+
 ALLOW_ALL_ORIGINS = env.get("HUMMAP_ALLOW_ALL_ORIGINS", "true") in ["true", "True", "TRUE"]
 ALLOW_ORIGINS = env.get("HUMMAP_ALLOW_ORIGINS", "http://localhost:3000").split(";")
 ALLOW_ALL_HEADERS = env.get("HUMMAP_ALLOW_ALL_HEADERS", "true") in ["true", "True", "TRUE"]
