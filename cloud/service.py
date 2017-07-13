@@ -32,7 +32,10 @@ def on_create_project(project_slug, creator="admin"):
 def on_create_point(project_slug, point_name):
     oc = owncloud.Client(settings.OWNCLOUD_HOST)
     oc.login(settings.OWNCLOUD_USERNAME, settings.OWNCLOUD_PASSWORD)
-    oc.mkdir(os.path.join(project_slug, point_name))
+    try:
+        oc.mkdir(os.path.join(project_slug, point_name))
+    except Exception:
+        pass
 
 
 def on_add_user_to_project(project_slug, username):
