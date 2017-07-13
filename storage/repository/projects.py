@@ -4,6 +4,7 @@ from storage.models.projects import Project
 def list_projects(session, is_active=True):
     return (session.query(Project).join(Project.organization)
                                   .filter(Project.is_active == is_active)
+                                  .order_by(Project.name)
                                   .all())
 
 
