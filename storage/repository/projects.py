@@ -13,7 +13,7 @@ def get_project_by_slug(session, slug):
                                   .one_or_none())
 
 
-def update_project(session, slug, name, description, start_date, end_date, zoom, center_point):
+def update_project(session, slug, name, description, start_date, end_date, zoom, center_point, **kwargs):
     obj = get_project_by_slug(session, slug)
 
     obj.name = name

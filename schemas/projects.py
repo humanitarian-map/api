@@ -1,8 +1,8 @@
 update = {
     "type": "object",
     "properties": {
+        "id": {"type": "string"},
         "name": {"type": "string"},
-        "slug": {"type": "string"},
         "description": {"type": "string"},
         "start_date": {"type": "string"},
         "end_date": {"type": "string"},
@@ -12,5 +12,5 @@ update = {
             "items": {"type": "number"}
         }
     },
-    "required": ["name", "slug", "description", "start_date", "end_date", "zoom", "center_point"]
+    "required": ["id", "name", "description", "start_date", "end_date", "zoom", "center_point"]
 }
