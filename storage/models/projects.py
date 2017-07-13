@@ -32,7 +32,9 @@ class Project(manager.Base):
     organization_id = Column(UUID(as_uuid=True), ForeignKey('organization.id'))
     organization = relationship("Organization", back_populates="projects")
 
-    mapitems = relationship("MapItem", back_populates="project")
+    mapitems = relationship("MapItem", back_populates="project",
+                            primaryjoin="and_(Project.id==MapItem.project_id, "
+                                        " MapItem.is_active==True)")
 
     __serialized_fields__ = [
         "id",

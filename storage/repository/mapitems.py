@@ -43,7 +43,10 @@ def delete_mapitem_by_id(session, slug, id):
     if not obj:
         return False
 
-    session.delete(obj)
+    obj.is_active = False
+
+    session.add(obj)
+    session.flush()
     return True
 
 
