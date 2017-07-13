@@ -1,3 +1,5 @@
+from slugify import slugify
+
 from storage.models.mapitems import MapItem, ItemTypes
 from storage.models.projects import Project
 
@@ -11,30 +13,33 @@ def list_mapitems(session, slug, is_active=True):
                                   .all())
 
 
-def get_mapitem_by_id(session, slug, id):
+def get_mapitem_by_id(session, project_slug, id):
     return session.query(MapItem).filter(MapItem.id == id,
-                                         Project.slug == slug).one_or_none()
+                                         Project.slug == project_slug).one_or_none()
 
 
 def create_mapitem(session, project, name, type, data, description=None):
     obj = MapItem(name=name,
+                  slug=slugify(name),
                   project=project,
                   type=type,
                   data=data,
                   description=description)
+
     session.add(obj)
     session.flush()
 
     if type == ItemTypes.point.value:
-        cloud_service.on_create_point(project.slug, name)
+        cloud_service.on_create_point(project.slug, obj.slug)
 
     return obj
 
 
-def update_mapitem(session, slug, id, name, type, data, description):
-    obj = get_mapitem_by_id(session, slug, id)
+def update_mapitem(session, project_slug, id, slug, name, type, data, description):
+    obj = get_mapitem_by_id(session, project_slug, id)
 
     obj.name = name
+    obj.slug = slug
     obj.type = type
     obj.data = data
     obj.description = description

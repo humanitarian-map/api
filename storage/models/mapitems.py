@@ -24,6 +24,7 @@ class MapItem(manager.Base):
     id = Column(UUID(as_uuid=True), nullable=False, primary_key=True,
                 default=uuid.uuid4)
     name = Column(Text, nullable=False)
+    slug = Column(Text, nullable=False)
     description = Column(Text)
     created_datetime = Column(DateTime(timezone=True), nullable=False,
                               default=datetime.now)
@@ -40,6 +41,7 @@ class MapItem(manager.Base):
     __serialized_fields__ = [
         "id",
         "name",
+        "slug",
         "description",
         "is_active",
         "type",
@@ -53,7 +55,7 @@ class MapItem(manager.Base):
     @property
     def documents_url(self):
         if self.type == ItemTypes.point:
-            return get_point_folder_url(self.project.slug, self.name)
+            return get_point_folder_url(self.project.slug, self.slug)
         return None
 
 

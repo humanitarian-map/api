@@ -4,6 +4,7 @@ import datetime
 import random
 
 from faker import Factory
+from slugify import slugify
 
 from cloud import service as cloud_service
 from storage.database import manager as db
@@ -103,8 +104,10 @@ def get_organization(name, slug, image, web, description):
 
 
 def get_project(organization, id):
-    return Project(name="Project Example {}".format(id),
-                   slug="project-example-{}".format(id),
+    name = fake.sentence()
+
+    return Project(name=name,
+                   slug=slugify(name),
                    organization=organization,
                    description=fake.paragraph(),
                    start_date=now().date() - datetime.timedelta(weeks=random.randint(2, 52)),
@@ -114,12 +117,14 @@ def get_project(organization, id):
 
 
 def get_cross(project):
+    name = fake.sentence()
     position = [random.uniform(project.center_point[0] - 3,
                                project.center_point[0] + 3),
                 random.uniform(project.center_point[1] - 3,
                                project.center_point[1] + 3)]
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=name,
+                   slug=slugify(name),
                    project=project,
                    description=fake.paragraph(),
                    type="cross",
@@ -127,12 +132,14 @@ def get_cross(project):
 
 
 def get_point(project):
+    name = fake.sentence()
     position = [random.uniform(project.center_point[0] - 3,
                                project.center_point[0] + 3),
                 random.uniform(project.center_point[1] - 3,
                                project.center_point[1] + 3)]
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=name,
+                   slug=slugify(name),
                    project=project,
                    description=fake.paragraph(),
                    type="point",
@@ -141,6 +148,7 @@ def get_point(project):
 
 
 def get_arrow(project):
+    name = fake.sentence()
     origin = [random.uniform(project.center_point[0] - 3,
                              project.center_point[0] + 3),
               random.uniform(project.center_point[1] - 3,
@@ -150,7 +158,8 @@ def get_arrow(project):
             random.uniform(origin[1] - 0.5,
                            origin[1] + 0.5)]
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=name,
+                   slug=slugify(name),
                    project=project,
                    description=fake.paragraph(),
                    type="arrow",
@@ -159,6 +168,7 @@ def get_arrow(project):
 
 
 def get_polygon(project):
+    name = fake.sentence()
     positions = [[random.uniform(project.center_point[0] - 3,
                                  project.center_point[0] + 3),
                   random.uniform(project.center_point[1] - 3,
@@ -171,7 +181,8 @@ def get_polygon(project):
                           random.uniform(last[1] - 3,
                                          last[1] + 3)])
 
-    return MapItem(name=fake.sentence(),
+    return MapItem(name=name,
+                   slug=slugify(name),
                    project=project,
                    description=fake.paragraph(),
                    type="polygon",
