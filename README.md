@@ -18,7 +18,7 @@ createdb humanitarianmap
 Run the api
 
 ```
-gunicorn --reload [-b 0.0.0.0:8000] app
+gunicorn --reload [-w4] [-b 0.0.0.0:8000] app
 ```
 
 For developers only

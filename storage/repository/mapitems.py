@@ -51,5 +51,6 @@ __all__ = [
     "list_mapitems",
     "get_mapitem_by_id",
     "create_mapitem",
+    "update_mapitem",
     "delete_mapitem_by_id"
 ]
