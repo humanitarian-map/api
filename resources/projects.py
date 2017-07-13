@@ -25,7 +25,7 @@ class ProjectResource(BaseResource):
         res.body = json.dumps(body)
 
     @request_schema(schemas.projects.update)
-    def on_put(self, req, res, slug, id):
+    def on_put(self, req, res, slug):
         data = req.context["doc"]
         body = repository.update_project(self.db.session, slug, **data)
 
