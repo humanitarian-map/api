@@ -12,8 +12,7 @@ from storage.models.projects import Project
 from storage.models.mapitems import MapItem, ItemTypes
 from utils.datetime import now
 
-
-fake = Factory.create()
+SEED = 1234567890
 
 
 SAMPLE_ORGANIZATIONS = [
@@ -185,6 +184,11 @@ MAPITEM_GENERATORS = (
     get_arrow,
     get_polygon
 )
+
+
+random.seed(SEED)
+fake = Factory.create()
+fake.seed(SEED)
 
 
 if __name__ == "__main__":
