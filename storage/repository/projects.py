@@ -9,7 +9,7 @@ def list_projects(session, is_active=True):
 
 
 def get_project_by_slug(session, slug):
-    return (session.query(Project).join(Project.mapitems, Project.organization)
+    return (session.query(Project).join(Project.mapitems, isouter=True).join(Project.organization)
                                   .filter(Project.slug == slug)
                                   .one_or_none())
 
