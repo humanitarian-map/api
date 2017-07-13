@@ -5,8 +5,10 @@ from cloud import service as cloud_service
 
 
 def list_mapitems(session, slug, is_active=True):
-    return session.query(MapItem).filter(MapItem.is_active == is_active,
-                                         Project.slug == slug).all()
+    return (session.query(MapItem).filter(MapItem.is_active == is_active,
+                                          Project.slug == slug)
+                                  .order_by(MapItem.id)
+                                  .all())
 
 
 def get_mapitem_by_id(session, slug, id):
