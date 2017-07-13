@@ -13,7 +13,24 @@ def get_project_by_slug(session, slug):
                                   .one_or_none())
 
 
+def update_project(session, slug, name, description, start_date, end_date, zoom, center_point):
+    obj = get_project_by_slug(session, slug)
+
+    obj.name = name
+    obj.description = description
+    obj.start_date = start_date
+    obj.end_date = end_date
+    obj.zoom = zoom
+    obj.center_point = center_point
+
+    session.add(obj)
+    session.flush()
+
+    return obj
+
+
 __all__ = [
     "list_projects",
-    "get_project_by_slug"
+    "get_project_by_slug",
+    "update_project"
 ]
