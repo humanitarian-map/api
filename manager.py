@@ -209,33 +209,7 @@ fake = Factory.create()
 fake.seed(SEED)
 
 
-####################################################################
-## Command
-####################################################################
-
-@click.group()
-def cli():
-    pass
-
-
-@cli.command()
-@click.option('--delete/--no-delete', default=True, help="Delete database.  [default: delete]")
-def initialize_db(delete):
-    if delete:
-        click.secho("Drop DB", bold=True)
-        db.delete()
-        create = True
-
-    if not delete:
-        create = False
-        for table in db.Base.metadata.sorted_tables:
-            if not db.engine.dialect.has_table(db.engine, table.name):
-                create = True
-
-    if create:
-        click.secho("Create DB", bold=True)
-        db.setup()
-
+def create_sample_data(db):
         organizations = []
         for data in SAMPLE_ORGANIZATIONS:
             org = get_organization(**data)
@@ -261,6 +235,42 @@ def initialize_db(delete):
                 if item.type == ItemTypes.point.value:
                     cloud_service.on_create_point(project.slug, item.name)
                 click.secho("    - Create map item: {}".format(item), fg='yellow')
+
+
+####################################################################
+## Command
+####################################################################
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+def sample_data():
+    create_sample_data(db)
+    db.session.commit()
+
+
+@cli.command()
+@click.option('--delete/--no-delete', default=True, help="Delete database.  [default: delete]")
+def initialize_db(delete):
+    if delete:
+        click.secho("Drop DB", bold=True)
+        db.delete()
+        create = True
+
+    if not delete:
+        create = False
+        for table in db.Base.metadata.sorted_tables:
+            if not db.engine.dialect.has_table(db.engine, table.name):
+                create = True
+
+    if create:
+        click.secho("Create DB", bold=True)
+        db.setup()
+
+        create_sample_data(db)
 
         db.session.commit()
 
