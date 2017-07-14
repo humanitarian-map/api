@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
+import click
 import datetime
 import random
+import subprocess
 
 from faker import Factory
 from slugify import slugify
@@ -12,6 +14,11 @@ from storage.models.organizations import Organization
 from storage.models.projects import Project
 from storage.models.mapitems import MapItem, ItemTypes
 from utils.datetime import now
+
+
+####################################################################
+## Sampledata
+####################################################################
 
 SEED = 1234567890
 
@@ -202,36 +209,73 @@ fake = Factory.create()
 fake.seed(SEED)
 
 
-if __name__ == "__main__":
-    print("Drop DB")
-    db.delete()
-    print("Create DB")
-    db.setup()
+####################################################################
+## Command
+####################################################################
 
-    organizations = []
-    for data in SAMPLE_ORGANIZATIONS:
-        org = get_organization(**data)
-        db.session.add(org)
-        db.session.flush()
-        print(". Create organization:", org)
-        organizations.append(org)
+@click.group()
+def cli():
+    pass
 
-    for id in range(1, 31):
-        project = get_project(random.choice(organizations), id)
 
-        db.session.add(project)
-        db.session.flush()
-        cloud_service.on_create_project(project.slug)
-        print("> Create project:", project)
+@cli.command()
+@click.option('--delete/--no-delete', default=True, help="Delete database.  [default: delete]")
+def initialize_db(delete):
+    if delete:
+        click.secho("Drop DB", bold=True)
+        db.delete()
+        create = True
 
-        for i in range(1, random.randint(4, 20)):
-            item = random.choice(MAPITEM_GENERATORS)(project)
+    if not delete:
+        create = False
+        for table in db.Base.metadata.sorted_tables:
+            if not db.engine.dialect.has_table(db.engine, table.name):
+                create = True
 
-            db.session.add(item)
+    if create:
+        click.secho("Create DB", bold=True)
+        db.setup()
+
+        organizations = []
+        for data in SAMPLE_ORGANIZATIONS:
+            org = get_organization(**data)
+            db.session.add(org)
             db.session.flush()
+            click.secho(". Create organization: {}".format(org), fg='blue')
+            organizations.append(org)
 
-            if item.type == ItemTypes.point.value:
-                cloud_service.on_create_point(project.slug, item.name)
-            print("    - Create map item:", item)
+        for id in range(1, 31):
+            project = get_project(random.choice(organizations), id)
 
-    db.session.commit()
+            db.session.add(project)
+            db.session.flush()
+            cloud_service.on_create_project(project.slug)
+            click.secho("> Create project: {}".format(project), fg='green')
+
+            for i in range(1, random.randint(4, 20)):
+                item = random.choice(MAPITEM_GENERATORS)(project)
+
+                db.session.add(item)
+                db.session.flush()
+
+                if item.type == ItemTypes.point.value:
+                    cloud_service.on_create_point(project.slug, item.name)
+                click.secho("    - Create map item: {}".format(item), fg='yellow')
+
+        db.session.commit()
+
+
+@cli.command()
+@click.option('--prod', is_flag=True, help="Run in production modo.")
+def run_server(prod):
+    if prod:
+        cmm = ["gunicorn", "-w4", "--timeout=300", "-b 0.0.0.0:8000", "app"]
+    else:
+        cmm = ["gunicorn", "-w1", "--timeout=300", "--reload", "-b 0.0.0.0:8000", "app"]
+
+    ppen = subprocess.Popen(cmm, stdout=subprocess.PIPE)
+    ppen.communicate()[0]
+
+
+if __name__ == "__main__":
+    cli()
