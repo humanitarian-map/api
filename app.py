@@ -6,6 +6,7 @@ from falconjsonio import middleware as falconjsonio_middleware
 from resources.documents import DocumentsCollection
 from resources.mapitems import MapItemsCollection, MapItemResource
 from resources.projects import ProjectsCollection, ProjectResource
+import middlewares
 import settings
 from storage.database import manager as db
 
@@ -26,6 +27,7 @@ cors = CORS(allow_all_origins=settings.ALLOW_ALL_ORIGINS,
 # Middlewares
 middlewares = [
     cors.middleware,
+    middlewares.disable_cache.DisableCacheMiddleware(),
     falconjsonio_middleware.RequireJSON(),
     falconjsonio_middleware.JSONTranslator(),
 ]
