@@ -1,3 +1,8 @@
 Django==1.11.3
 djangorestframework==3.6.3
 django-cors-headers==2.1.0
+Faker==0.7.17
+gunicorn==19.7.1
+psycopg2==2.7.1
+python-slugify==1.2.4
+pyocclient==0.4
