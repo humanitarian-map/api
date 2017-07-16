@@ -6,3 +6,4 @@ gunicorn==19.7.1
 psycopg2==2.7.1
 python-slugify==1.2.4
 pyocclient==0.4
+dateparser==0.6.0
