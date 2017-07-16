@@ -7,15 +7,15 @@ import uuid
 class Organization(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField(null=False)
-    slug = models.TextField(null=False, unique=True)
+    slug = models.TextField(null=False, blank=True, unique=True)
     image = models.TextField(null=True)
     web = models.TextField(null=True)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
 
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "<Organization(name='{}')>".format(self.name)
 
     def save(self, *args, **kwargs):
@@ -35,8 +35,8 @@ class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.TextField(null=False)
-    slug = models.TextField(null=False, unique=True)
-    description = models.TextField(null=True)
+    slug = models.TextField(null=False, blank=True, unique=True)
+    description = models.TextField(null=True, blank=True)
 
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
@@ -52,10 +52,6 @@ class Project(models.Model):
 
     organization = models.ForeignKey("Organization", related_name="projects")
 
-    # @property
-    # def documents_url(self):
-    #     return get_project_folder_url(self.slug)
-
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = slugify(self.name)  # change the attibute to the field that would be used as a slug
@@ -66,9 +62,10 @@ class Project(models.Model):
                 new_slug = '{slug}-{count}'.format(slug=slug, count=count)
 
             self.slug = new_slug
+
         return super().save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return "<Project(name='{}')>".format(self.name)
 
 
@@ -85,8 +82,8 @@ class MapItem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.TextField(null=False)
-    slug = models.TextField(null=False)
-    description = models.TextField(null=True)
+    slug = models.TextField(null=False, blank=True)
+    description = models.TextField(null=True, blank=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
@@ -97,14 +94,8 @@ class MapItem(models.Model):
 
     project = models.ForeignKey("Project", related_name="mapitems")
 
-    def __unicode__(self):
+    def __str__(self):
         return "<MapItem(type={}, name='{}')>".format(self.type, self.name)
-
-    # @property
-    # def documents_url(self):
-    #     if self.type == ItemTypes.point:
-    #         return get_point_folder_url(self.project.slug, self.slug)
-    #     return None
 
     def save(self, *args, **kwargs):
         if not self.slug:

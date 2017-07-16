@@ -5,7 +5,6 @@ import random
 
 from faker import Factory
 
-# from cloud import service as cloud_service
 from core.models import Organization, Project, MapItem
 
 
@@ -214,11 +213,8 @@ class Command(BaseCommand):
 
         for id in range(1, 31):
             project = get_project(random.choice(organizations), id)
-            # cloud_service.on_create_project(project.slug)
             print("> Create project: {}".format(project))
 
             for i in range(1, random.randint(4, 20)):
                 item = random.choice(MAPITEM_GENERATORS)(project)
-                # if item.type == "point":
-                #     cloud_service.on_create_point(project.slug, item.name)
                 print("    - Create map item: {}".format(item))

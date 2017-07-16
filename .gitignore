@@ -4,5 +4,4 @@ __pycache__
 .venv
 .cache
 .coverage
-settings/test.py
-settings/local.py
+humanitarian_map_api/settings/local.py
