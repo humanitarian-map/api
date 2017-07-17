@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework import routers
+from core.base.api import routers
 from core import views
 
 
 router = routers.DefaultRouter()
-router.register(r'organizations', views.OrganizationViewSet)
-router.register(r'projects', views.ProjectViewSet)
-router.register(r'map-items', views.MapItemViewSet)
+router.register(r'organizations', views.OrganizationViewSet, base_name="organizations")
+(router.register(r'projects', views.ProjectViewSet, base_name="projects")
+       .register(r'map-items', views.MapItemViewSet, base_name='map-items', parents_query_lookups=["project__slug"]))
 
 
 urlpatterns = [
