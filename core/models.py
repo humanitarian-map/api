@@ -30,6 +30,9 @@ class Organization(models.Model):
             self.slug = new_slug
         return super().save(*args, **kwargs)
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -67,6 +70,9 @@ class Project(models.Model):
 
     def __str__(self):
         return "<Project(name='{}')>".format(self.name)
+
+    class Meta:
+        ordering = ["name"]
 
 
 ITEM_TYPES_CHOICES = [
@@ -108,3 +114,6 @@ class MapItem(models.Model):
 
             self.slug = new_slug
         return super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ["id"]
