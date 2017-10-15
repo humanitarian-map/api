@@ -15,18 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from core.base.api import routers
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from rest_framework_nested import routers
 from core import views
 
 
 router = routers.DefaultRouter()
 router.register(r'organizations', views.OrganizationViewSet, base_name="organizations")
-(router.register(r'projects', views.ProjectViewSet, base_name="projects")
-       .register(r'map-items', views.MapItemViewSet, base_name='map-items', parents_query_lookups=["project__slug"]))
+router.register(r'users', views.UserViewSet, base_name="users")
+router.register(r'projects', views.ProjectViewSet, base_name="projects")
 
+projects_router = routers.NestedSimpleRouter(router, r'projects', lookup='project')
+projects_router.register(r'map-items', views.MapItemViewSet, base_name='map-items')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
+    url(r'^api/', include(projects_router.urls)),
     url(r'^admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/auth/login/', obtain_jwt_token),
+    url(r'^api/auth/refresh/', refresh_jwt_token),
 ]

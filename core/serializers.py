@@ -1,6 +1,7 @@
 from core.models import Project, MapItem, Organization
 from rest_framework import serializers
 from .service import get_project_folder_url, get_point_folder_url
+from django.contrib.auth.models import User
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -43,3 +44,9 @@ class ProjectSerializer(serializers.ModelSerializer):
                   "documents_url")
         read_only_fiels = ("created_datetime", "updated_datetime", "slug")
         lookup_field = "slug"
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "last_name", "username", "email")

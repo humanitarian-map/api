@@ -11,12 +11,13 @@ class Organization(models.Model):
     image = models.TextField(null=True)
     web = models.TextField(null=True)
     description = models.TextField(null=True, blank=True)
+    is_public = models.BooleanField()
 
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "<Organization(name='{}')>".format(self.name)
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -32,6 +33,18 @@ class Organization(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+
+ORGANIZATION_ROLES_CHOICES = [
+    ('admin', 'Admin'),
+    ('member', 'Member'),
+]
+
+
+class OrganizationMember(models.Model):
+    user = models.ForeignKey('auth.User')
+    organization = models.ForeignKey(Organization, related_name="members")
+    role = models.CharField(max_length=20, choices=ORGANIZATION_ROLES_CHOICES)
 
 
 class Project(models.Model):
@@ -54,6 +67,7 @@ class Project(models.Model):
     deleted_datetime = models.DateTimeField(null=True)
 
     organization = models.ForeignKey("Organization", related_name="projects")
+    is_public = models.BooleanField()
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -69,10 +83,23 @@ class Project(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return "<Project(name='{}')>".format(self.name)
+        return "{} - {}".format(self.organization, self.name)
 
     class Meta:
         ordering = ["name"]
+
+
+PROJECT_ROLES_CHOICES = [
+    ('admin', 'Admin'),
+    ('manager', 'Manager'),
+    ('member', 'Member'),
+]
+
+
+class ProjectMember(models.Model):
+    user = models.ForeignKey('auth.User')
+    project = models.ForeignKey(Project, related_name="members")
+    role = models.CharField(max_length=20, choices=PROJECT_ROLES_CHOICES)
 
 
 ITEM_TYPES_CHOICES = [
@@ -101,7 +128,7 @@ class MapItem(models.Model):
     project = models.ForeignKey("Project", related_name="mapitems")
 
     def __str__(self):
-        return "<MapItem(type={}, name='{}')>".format(self.type, self.name)
+        return "{} ({})".format(self.name, self.type)
 
     def save(self, *args, **kwargs):
         if not self.slug:
